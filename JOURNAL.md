@@ -1,4 +1,4 @@
----
+<img width="3889" height="2294" alt="recoverability_metric_cross_sections" src="https://github.com/user-attachments/assets/f41910f1-22cb-452c-93f0-ce0e166b3cd1" />---
 title: "TVC Rocket Control & Flight Controller"
 author: "REPLACE_WITH_YOUR_GITHUB_USERNAME"
 description: "My attempt to build and validate an actively controlled rocket: from debugging the simulation and comparing controllers to designing a flight controller that actually fits."
@@ -12,8 +12,6 @@ I started this because I was interested in how far an actively controlled rocket
 
 I wanted to know *under what combinations of wind, sensor noise, delay and actuator limits does each controller fail?* I started exploring failure-regime maps and even the maximal closed-loop Lyapunov exponent as a possible way of measuring divergence. I liked the idea of mapping a failure boundary. I still had to find out whether the Lyapunov method would work for this model.
 
-![PLACEHOLDER — first research-question sketch or notes comparing the four controllers](images/2026-06-30-research-direction.png)
-
 **Total time spent: 2 hours**
 
 # July 1: My first Lyapunov calculation needed fixing
@@ -22,19 +20,11 @@ The divergence calculation was more subtle than I originally treated it. If I ju
 
 I revised the method to propagate two nearby trajectories for a fixed interval, record the change in separation, and then rescale the perturbation back to its original size before repeating. This is the Benettin-style renormalisation idea. It's the kind of mistake that makes me slightly suspicious of any equation that looks too tidy the first time I write it. I still needed to choose the state norm, perturbation size and convergence checks before interpreting any exponent.
 
-![PLACEHOLDER — annotated before/after derivation for trajectory renormalisation](images/2026-07-01-lyapunov-derivation.png)
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/c936b539-afc3-44ed-ba47-1c953b33cced" />
+
 
 **Total time spent: 3 hours**
 
-# July 8: Simulink was getting in the way of the actual engineering
-
-I was trying to tune the control system, but the simulation workflow itself was becoming a problem. Scope windows and heavy live visualisation could make MATLAB/Simulink freeze or become painfully awkward to use. I changed how I launched runs and reduced unnecessary live logging to make working on the model less frustrating.
-
-I also realised I couldn't blindly trust a PID Autotuner result. Linearising the rocket at time zero, before thrust had developed, could give a meaningless operating point for a powered-flight controller. I decided to use autotuning for an initial guess only, then test the gains on the nonlinear rocket. I needed to check how those gains behaved during powered flight.
-
-![PLACEHOLDER — original Simulink model and a screenshot of the simulation/tuning setup](images/2026-07-08-simulink-workflow.png)
-
-**Total time spent: 3 hours**
 
 # July 31: Putting together a UKF for state estimation
 
@@ -42,7 +32,8 @@ I needed to estimate the controller's state inputs from sensor measurements. The
 
 The part I had to think about was acceleration during launch. An accelerometer doesn't simply point to gravity when the rocket is accelerating under thrust. If I treated it that way, I could push the attitude estimate in the wrong direction. I used a thrust/burn-dependent gate, including the first 2.49 seconds of powered flight, with a further near-1g check before using acceleration for attitude correction. I also had to account for an observability limitation: GPS and barometer measurements alone leave yaw unobservable. The estimator still had limits I needed to work through.
 
-![PLACEHOLDER — UKF state vector, measurement paths, or Simulink estimator subsystem](images/2026-07-31-ukf-model.png)
+<img width="1954" height="822" alt="image" src="https://github.com/user-attachments/assets/6f1e7dda-fe52-4544-8660-119e73e8e368" />
+
 
 **Total time spent: 4 hours**
 
@@ -52,7 +43,7 @@ This was a much messier integration problem than I expected. Pitch behaviour loo
 
 Once those paths were corrected, the recorded tests showed large reductions in rate error (about 94.7% for pitch and 91.4% for yaw in the relevant comparisons). Seeing how much a sign or frame convention could change the loop's behaviour made those mistakes easier to understand. I want to keep the faulty results alongside the corrected ones so I can trace what changed.
 
-![PLACEHOLDER — side-by-side faulty and corrected yaw/pitch response plots](images/2026-08-05-tvc-ukf-sign-fix.png)
+<img width="1800" height="560" alt="image" src="https://github.com/user-attachments/assets/9d748529-3ff7-420b-a2af-d935e8c0459e" />
 
 **Total time spent: 3 hours**
 
@@ -62,7 +53,9 @@ I added Dryden turbulence because I wanted to test the controllers in something 
 
 I connected the air-relative velocity to the aerodynamic force calculation, then used the centre-of-pressure offset and rotational damping to form the corresponding moments. This gave the wind input in m/s a physical path through to the loads on the rocket. The early aerodynamic coefficients were provisional, so I still needed to justify or measure them before treating the model as physically validated.
 
-![PLACEHOLDER — Dryden block and the added air-relative-velocity/aerodynamic-load path](images/2026-08-20-wind-aerodynamics.png)
+<img width="1454" height="626" alt="image" src="https://github.com/user-attachments/assets/abb16ceb-2b2f-4417-9074-be8ea9285c66" />
+<img width="1574" height="894" alt="image" src="https://github.com/user-attachments/assets/e5226fe7-39d1-4058-81ee-597acf3957a4" />
+
 
 **Total time spent: 2 hours**
 
@@ -72,8 +65,6 @@ Another problem showed up around the 2.49-second estimator handover. The estimat
 
 I changed the abrupt accelerometer correction into filtered, thrust-dependent weighting. I also replaced the raw derivative of the attitude error with PI plus explicit body-rate damping. The recorded validation no longer showed the same handover spike. That made me pay more attention to what happens when the estimator changes how it uses its measurements.
 
-![PLACEHOLDER — command spike before and smoother handover after the filter change](images/2026-08-20-estimator-handover.png)
-
 **Total time spent: 3.4 hours**
 
 # August 20: I built the first trajectory-divergence test
@@ -82,7 +73,8 @@ I came back to the failure-boundary idea from June and wrote a Benettin-style tw
 
 The script used 0.2-second renormalisation intervals and a full closed-loop state representation, and I got a short two-interval smoke test recorded. I still needed to check convergence and stability, work through state scaling and perturbation size, and find out whether the finite-time result said something useful near a controller's failure boundary.
 
-![PLACEHOLDER — run_benettin_lyapunov.m or its first smoke-test output](images/2026-08-20-benettin-smoke-test.png)
+<img width="2070" height="1336" alt="image" src="https://github.com/user-attachments/assets/a2242afb-3595-4958-9451-c64d198eb495" />
+
 
 **Total time spent: 2 hours**
 
@@ -92,7 +84,8 @@ I was still seeing small persistent pitch/yaw errors. Some of this was tied to t
 
 One recorded yaw offset went from about 0.145° to 0.0209°. I was pleased to see it shrink, but I also didn't want to overfit the baseline for one trajectory. For the four-controller comparison, I need to document and freeze the PID configuration so I can reuse the same gains across the runs.
 
-![PLACEHOLDER — PID before/after dead-zone compensation plot and gain values](images/2026-08-21-pid-deadzone.png)
+<img width="1178" height="738" alt="image" src="https://github.com/user-attachments/assets/8722fb3e-9270-40e1-a274-8078222de02f" />
+
 
 **Total time spent: 3 hours**
 
@@ -104,7 +97,6 @@ Then the wider audit uncovered an even worse issue: the aerodynamic path was bei
 
 It was frustrating to realise earlier numerical results might have been based on incorrect physics. Anything from before these fixes would need to be rerun before I could rely on it in the paper.
 
-![PLACEHOLDER — before/after aerodynamic wiring screenshot with the incorrect Euler-angle input highlighted](images/2026-08-23-physics-audit.png)
 
 **Total time spent: 3.9 hours**
 
@@ -114,7 +106,8 @@ I set up large recoverability sweeps across gust, embedded delay and gimbal limi
 
 The counterintuitive result was what stuck with me. At around 50.1 ms delay, the recorded 5° authority case gave 6.24° RMS, but allowing 15° authority gave 8.55° RMS. With delay, the extra actuator range could allow more over-correction. At essentially zero delay, both cases had almost identical tiny RMS errors because the controller barely needed to command any gimbal angle. I want to rerun this with fixed seeds and save the traces to check how repeatable that delay-and-authority effect is.
 
-![PLACEHOLDER — delay-versus-authority RMS cross-section and time histories](images/2026-08-26-delay-authority-sweep.png)
+<img width="3889" height="2294" alt="recoverability_metric_cross_sections" src="https://github.com/user-attachments/assets/f00cfc96-d765-4a5d-9d1c-889e585442c4" />
+
 
 **Total time spent: 3 hours**
 
@@ -124,7 +117,7 @@ I rebuilt the NMPC around six prediction states: pitch error, yaw error, the two
 
 The recorded 5° recovery case settled to within 0.5° in about 0.81 s, ending with roughly 0.129° error and no reported non-positive solver statuses. I was happy with that recovery test. I still needed to explore the controller's failure envelope using matched disturbances and measure the computation time before deciding whether the optimisation solver could run on embedded hardware.
 
-![PLACEHOLDER — six-state NMPC diagram and 5-degree recovery plot](images/2026-08-29-nmpc-six-state.png)
+
 
 **Total time spent: 2 hours**
 
