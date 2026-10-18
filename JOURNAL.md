@@ -309,3 +309,11 @@ But I don't want to confuse **routed** with **working**. I still need to run the
 ![PLACEHOLDER — fully routed KiCad PCB, ideally front/back copper views](images/2026-10-12-fc-routing-complete.png)
 
 **Total time spent: 3 hours**
+
+# October 16: I finished routing
+
+I finished the firmware for the flight computer, larging utilising code blocks from a previous project. I used the STM32 cube IDE to build the project. The next step will be to submit the project and order the PCB.
+
+![PLACEHOLDER — code for the AHRS](images/2026-10-12-fc-routing-complete.png)
+
+**Total time spent: 3 hours**
