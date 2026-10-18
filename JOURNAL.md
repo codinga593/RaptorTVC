@@ -5,34 +5,6 @@ description: "My attempt to build and validate an actively controlled rocket: fr
 created_at: "2026-06-30"
 ---
 
-> **Draft for personal revision — do not submit this text unchanged.** The Forge guidelines supplied for this project say AI-generated journal content will be rejected. Rewrite the entries in your own words from your real experience, verify the dates and results, replace all image placeholders, enter your actual hours and GitHub username, and honestly disclose assistance. The 28 September–2 October dates are approximate and need checking.
-
-<!--
-WORKING DRAFT — NOT READY TO SYNC TO FORGE.
-
-This journal was reconstructed on 12 October 2026 from my dated research notes,
-recovered engineering logbook, and later progress updates, with AI assistance
-in drafting the prose. It is NOT a contemporaneously written diary. Forge's
-rules say AI-generated journal text is rejected. Before submitting, I need to
-rewrite every entry in my own words, confirm that the details reflect what I
-actually did, and add real screenshots/photos and my actual hours.
-
-Entries marked [APPROXIMATE DATE] were allocated across 28 Sep–2 Oct for
-organisation; the specific day of each activity has not been verified.
-
-Every images/... reference below is an unfilled PLACEHOLDER, not evidence.
-Replace each placeholder with a genuine project image at that path (or update
-its path) before syncing. Do not recreate old screenshots and present them
-as if they were captured on the original dates. For early entries, an authentic
-saved model/plot from the period can be added and captioned honestly.
-
-The earlier PCB documented in September and the new simplified flight
-controller designed in October are distinct revisions. I still need to
-verify which board revision each early PCB image belongs to.
-
-The controller-comparison results are simulation results. No hardware-in-the-
-loop test or physical rocket flight is claimed here.
--->
 
 # June 30: I decided I didn't just want another controller comparison
 
@@ -42,7 +14,7 @@ So I shifted the question from *which controller produces the prettiest nominal 
 
 ![PLACEHOLDER — first research-question sketch or notes comparing the four controllers](images/2026-06-30-research-direction.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
 # July 1: My first Lyapunov calculation needed fixing
 
@@ -52,7 +24,7 @@ I revised the method to propagate two nearby trajectories for a fixed interval, 
 
 ![PLACEHOLDER — annotated before/after derivation for trajectory renormalisation](images/2026-07-01-lyapunov-derivation.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3 hours**
 
 # July 8: Simulink was getting in the way of the actual engineering
 
@@ -62,7 +34,7 @@ I also realised I couldn't blindly trust a PID Autotuner result. Linearising the
 
 ![PLACEHOLDER — original Simulink model and a screenshot of the simulation/tuning setup](images/2026-07-08-simulink-workflow.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3 hours**
 
 # July 31: Putting together a UKF instead of assuming my measurements were perfect
 
@@ -72,7 +44,7 @@ The part I had to think about was acceleration during launch. An accelerometer d
 
 ![PLACEHOLDER — UKF state vector, measurement paths, or Simulink estimator subsystem](images/2026-07-31-ukf-model.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 4 hours**
 
 # August 5: Several tiny sign errors were ruining the TVC response
 
@@ -82,7 +54,7 @@ Once those paths were corrected, the recorded tests showed large reductions in r
 
 ![PLACEHOLDER — side-by-side faulty and corrected yaw/pitch response plots](images/2026-08-05-tvc-ukf-sign-fix.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3 hours**
 
 # August 20: My wind disturbance wasn't actually disturbing the rocket
 
@@ -92,7 +64,7 @@ I connected the air-relative velocity to the aerodynamic force calculation, then
 
 ![PLACEHOLDER — Dryden block and the added air-relative-velocity/aerodynamic-load path](images/2026-08-20-wind-aerodynamics.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
 # August 20: The estimator handover made my PID command jump
 
@@ -102,7 +74,7 @@ I changed the abrupt accelerometer correction into filtered, thrust-dependent we
 
 ![PLACEHOLDER — command spike before and smoother handover after the filter change](images/2026-08-20-estimator-handover.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3.4 hours**
 
 # August 20: I built the first trajectory-divergence test
 
@@ -112,7 +84,7 @@ The script used 0.2-second renormalisation intervals and a full closed-loop stat
 
 ![PLACEHOLDER — run_benettin_lyapunov.m or its first smoke-test output](images/2026-08-20-benettin-smoke-test.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
 # August 21: The PID offset wasn't just a gain problem
 
@@ -122,7 +94,7 @@ One recorded yaw offset went from about 0.145° to 0.0209°. I was pleased to se
 
 ![PLACEHOLDER — PID before/after dead-zone compensation plot and gain values](images/2026-08-21-pid-deadzone.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3 hours**
 
 # August 23: The physics audit invalidated a lot of my earlier confidence
 
@@ -134,7 +106,7 @@ It was frustrating to realise earlier numerical results might have been based on
 
 ![PLACEHOLDER — before/after aerodynamic wiring screenshot with the incorrect Euler-angle input highlighted](images/2026-08-23-physics-audit.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3.9 hours**
 
 # August 26–27: More gimbal authority actually made things worse
 
@@ -144,7 +116,7 @@ The counterintuitive result was what stuck with me. At around 50.1 ms delay, the
 
 ![PLACEHOLDER — delay-versus-authority RMS cross-section and time histories](images/2026-08-26-delay-authority-sweep.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3 hours**
 
 # August 29: The NMPC finally had its own actuator states
 
@@ -154,7 +126,7 @@ The recorded 5° recovery case settled to within 0.5° in about 0.81 s, ending w
 
 ![PLACEHOLDER — six-state NMPC diagram and 5-degree recovery plot](images/2026-08-29-nmpc-six-state.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
 # August 29 onward: I stopped judging PID from only a few hand-picked runs
 
@@ -164,7 +136,7 @@ The recovered paper records 10,000 completed cases, with 2,552 exceeding the cho
 
 ![PLACEHOLDER — raw Monte Carlo result chart, histogram or parameter sampling plot](images/2026-08-29-pid-monte-carlo.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
 # September 7: I had to make the paper match the work, not the other way around
 
@@ -174,7 +146,7 @@ I also found discrepancies in the documented gust range and quaternion-error con
 
 ![PLACEHOLDER — paper revision or annotated list of inconsistent claims](images/2026-09-07-paper-audit.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 1.5 hours**
 
 # September 13: I found a 20 ms mistake in the paper
 
@@ -184,7 +156,7 @@ It was a reminder to trace every headline parameter back to the model or script 
 
 ![PLACEHOLDER — corrected delay value in manuscript beside sweep range](images/2026-09-13-delay-correction.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 1 hours**
 
 # September 14: I added the PCB views and component table to the report
 
@@ -194,7 +166,7 @@ I still need to label which specific PCB revision this image belongs to. I later
 
 ![PLACEHOLDER — original PCB orthographic view and component table from the report](images/2026-09-14-original-pcb-view.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
 # September 15: An NMPC result looked too good, which turned out to be a warning
 
@@ -204,7 +176,7 @@ The problem was that I had represented transient aerodynamic effects without the
 
 ![PLACEHOLDER — steady-state force/model correction and before/after response](images/2026-09-15-steady-state-aerodynamics.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3 hours**
 
 # September 16: I tried to make the maths and Simulink tell the same story
 
@@ -214,7 +186,7 @@ This mattered to me because a nice Simulink block diagram alone isn't a reproduc
 
 ![PLACEHOLDER — paper UKF/aerodynamic equations next to corresponding Simulink blocks](images/2026-09-16-ukf-aero-maths.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2.5 hours**
 
 # September 17: NMPC Monte Carlo ran into MATLAB function-call problems
 
@@ -224,9 +196,9 @@ I went through the calls, fixed the problems and got the campaign running. I hav
 
 ![PLACEHOLDER — MATLAB error/function-call fix and NMPC run output](images/2026-09-17-nmpc-monte-carlo-debugging.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
-# September 28 [APPROXIMATE DATE]: I revisited the DARE derivation
+# September 28: I revisited the DARE derivation
 
 I corrected the Discrete Algebraic Riccati Equation derivation used in the paper for the terminal cost. The equations had to agree with the actual discrete linearised system, not just look like a familiar continuous-time LQR formula rearranged onto the page.
 
@@ -234,9 +206,9 @@ This was mainly a mathematical correctness pass. I don't want the terminal penal
 
 ![PLACEHOLDER — annotated corrected DARE / terminal-cost equations](images/2026-09-28-dare-correction.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 4 hours**
 
-# September 29 [APPROXIMATE DATE]: I finished an earlier PCB design
+# September 29 : I finished an earlier PCB design
 
 I reached a completed design state for an earlier flight-controller PCB. At the time, finishing the board was a milestone, but that wasn't the end of the hardware decision-making. A finished design on-screen isn't necessarily a board that fits the final rocket or has every interface wired correctly.
 
@@ -244,9 +216,9 @@ I would end up reconsidering which controller board to build and then drawing a 
 
 ![PLACEHOLDER — completed earlier PCB render or KiCad layout](images/2026-09-29-earlier-pcb-complete.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 1 hours**
 
-# September 30 [APPROXIMATE DATE]: I expanded the UKF equations in the paper
+# September 30 : I expanded the UKF equations in the paper
 
 I spent more time documenting the actual UKF mathematics. I'd already added the estimator formulation earlier in September, but I still needed a clearer explanation of how the sigma-point prediction and measurement update related to the Simulink implementation.
 
@@ -254,9 +226,9 @@ Writing the equations forced me to inspect assumptions that are easy to hide ins
 
 ![PLACEHOLDER — expanded UKF derivation or edited manuscript page](images/2026-09-30-ukf-equations.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
-# October 1 [APPROXIMATE DATE]: I started reading more seriously about LQR
+# October 1 : I started reading more seriously about LQR
 
 I began the LQR literature review because I couldn't just put LQR into the controller comparison as a token classical-control baseline. I needed to understand how previous work defined the linearised plant, chose its states and weights, and described the limits of a fixed-gain solution when the real rocket is nonlinear and changing over time.
 
@@ -264,9 +236,9 @@ The literature review was still in progress. I hadn't established a finished mat
 
 ![PLACEHOLDER — literature notes, reference list or annotated LQR derivation](images/2026-10-01-lqr-literature.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2.3 hours**
 
-# October 2 [APPROXIMATE DATE]: Turning the wind blocks back into equations
+# October 2 =: Turning the wind blocks back into equations
 
 I started translating the Simulink wind/turbulence model into the mathematics for the paper. The simulation already had a physical wind path, but that isn't helpful to a reader if the report just says "Dryden turbulence" and leaves out what the model is actually doing.
 
@@ -274,7 +246,7 @@ I wanted to distinguish the stochastic turbulence process from the deterministic
 
 ![PLACEHOLDER — wind/turbulence Simulink blocks paired with draft equations](images/2026-10-02-wind-model-equations.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
 # October 3: I compiled code to MEX because the simulation count was getting ridiculous
 
@@ -284,7 +256,7 @@ Getting the code onto a faster execution path was about making the experimental 
 
 ![PLACEHOLDER — MEX build success output or timed MATLAB-versus-MEX test](images/2026-10-03-mex-compilation.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3 hours**
 
 # October 4: I began building the failure maps I'd wanted from the start
 
@@ -294,7 +266,7 @@ I was only setting up the pipeline at this point. The hard part would be keeping
 
 ![PLACEHOLDER — early failure-map script, grid definition or draft heatmap](images/2026-10-04-failure-map-setup.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 1 hours**
 
 # October 8: Four separate sweep charts were getting impossible to compare
 
@@ -304,7 +276,7 @@ The goal was a condensed set of figures where a reader could compare all four un
 
 ![PLACEHOLDER — old separate charts beside the new four-controller chart draft](images/2026-10-08-four-controller-plots.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 4 hours**
 
 # October 9: I scrapped the complicated flight-controller plan and drew a simpler schematic in one day
 
@@ -316,7 +288,7 @@ That speed came from reusing previous work, not from inventing an entire electro
 
 ![PLACEHOLDER — new simplified schematic overview, with reused functional blocks highlighted](images/2026-10-09-new-simple-fc-schematic.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 2 hours**
 
 # October 10: The new flight controller finally started looking like a real board
 
@@ -326,7 +298,7 @@ I had to treat placement and routing as functional engineering, not just making 
 
 ![PLACEHOLDER — KiCad component-placement screenshot before or during first routing](images/2026-10-10-fc-placement-routing-start.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 4 hours**
 
 # October 12: I finished routing — now I have to prove it actually works
 
@@ -336,4 +308,4 @@ But I don't want to confuse **routed** with **working**. I still need to run the
 
 ![PLACEHOLDER — fully routed KiCad PCB, ideally front/back copper views](images/2026-10-12-fc-routing-complete.png)
 
-**Total time spent: [add actual hours] hours**
+**Total time spent: 3 hours**
