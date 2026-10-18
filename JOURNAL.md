@@ -1,6 +1,6 @@
-<img width="3889" height="2294" alt="recoverability_metric_cross_sections" src="https://github.com/user-attachments/assets/f41910f1-22cb-452c-93f0-ce0e166b3cd1" />---
+
 title: "TVC Rocket Control & Flight Controller"
-author: "REPLACE_WITH_YOUR_GITHUB_USERNAME"
+author: "codinga593"
 description: "My attempt to build and validate an actively controlled rocket: from debugging the simulation and comparing controllers to designing a flight controller that actually fits."
 created_at: "2026-06-30"
 ---
