@@ -121,23 +121,21 @@ The recorded 5° recovery case settled to within 0.5° in about 0.81 s, ending w
 
 **Total time spent: 2 hours**
 
-# August 29 onward: I stopped judging PID from only a few hand-picked runs
+# August 29 onward: Ran a larger monte carlo campaign
 
 I set up a 10,000-run Monte Carlo campaign for PID, varying gust speed, embedded delay and gyro-noise covariance across the cases. The run was designed to work in batches and resume if MATLAB stopped halfway through. That mattered because these simulations weren't cheap, and losing a long campaign to one failure would be awful.
 
 The recovered paper records 10,000 completed cases, with 2,552 exceeding the chosen 5° RMS loss-of-control threshold (74.48% under that criterion). The manuscript also gives slightly different mean RMS values in two places, around 2.411° and 2.4133°. I need to go back to the underlying result files before treating either as final. The threshold itself also needs justification. I used Monte Carlo to find the conditions where the PID controller stopped being dependable.
 
-![PLACEHOLDER — raw Monte Carlo result chart, histogram or parameter sampling plot](images/2026-08-29-pid-monte-carlo.png)
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/b0fd7bde-d707-4ddc-8f8e-8383a94f62e7" />
 
 **Total time spent: 2 hours**
 
 # September 7: I checked the paper's claims against the work
 
-I spent time cleaning the paper's formatting, including equation overflow in the two-column layout. But the more awkward part was auditing what the draft actually claimed. Some sections and abstract statements were ahead of the evidence: there were still missing comparative results for LQR/NMPC/MLP-tuned NMPC, and hardware-in-the-loop or flight validation couldn't be claimed just because those were goals.
+I spent time cleaning the paper's formatting, including equation overflow in the two-column layout. But the more awkward part was auditing what the draft actually claimed. Some sections and abstract statements were ahead of the evidence: there were still missing comparative results for LQR/NMPC/MLP-tuned NMPC.
 
-I also found discrepancies in the documented gust range and quaternion-error convention, so I made a list of the gaps to resolve. I need to be able to reproduce the experiments behind the paper's claims.
-
-![PLACEHOLDER — paper revision or annotated list of inconsistent claims](images/2026-09-07-paper-audit.png)
+I also found discrepancies in the documented gust range and some mismatches quaternion-error convention, so I made a list of the gaps to resolve. I need to be able to reproduce the experiments behind the paper's claims.
 
 **Total time spent: 1.5 hours**
 
@@ -147,9 +145,9 @@ I spotted a discrepancy in the embedded-delay value: I'd written 53 ms where it 
 
 I need to trace the parameters back to the model or script, especially numbers copied between draft sections. I also need to make the correction consistently wherever the old value appears.
 
-![PLACEHOLDER — corrected delay value in manuscript beside sweep range](images/2026-09-13-delay-correction.png)
+<img width="758" height="416" alt="image" src="https://github.com/user-attachments/assets/ca952b79-1844-4857-a601-d508a6c22962" />
 
-**Total time spent: 1 hour**
+**Total time spent: 0.3 hour**
 
 # September 14: I added the PCB views and component table to the report
 
@@ -157,27 +155,19 @@ I put an orthographic PCB view and a component table into the report so a reader
 
 I still need to label which specific PCB revision this image belongs to. I later started a new simplified flight controller in October, so I need to keep the two revisions clear in the documentation.
 
-![PLACEHOLDER — original PCB orthographic view and component table from the report](images/2026-09-14-original-pcb-view.png)
+<img width="580" height="464" alt="image" src="https://github.com/user-attachments/assets/5b4735b4-8eaa-42c3-a076-f32229f5d335" />
+<img width="746" height="536" alt="image" src="https://github.com/user-attachments/assets/8f051f64-b03e-4c63-bcf9-a2262075f2bf" />
+
 
 **Total time spent: 2 hours**
 
-# September 15: An NMPC result looked too good, which turned out to be a warning
 
-I was checking the aerodynamic model because something about the steady-state behaviour didn't add up. Even baseline NMPC was removing a persistent error in a situation where I expected some steady-state offset. That sent me back to the forces in the plant.
-
-I'd represented transient aerodynamic effects without the relevant steady-state force contribution. I worked through that discrepancy and verified the aerodynamic modelling. With that force contribution missing, I couldn't rely on the response to judge the controller.
-
-![PLACEHOLDER — steady-state force/model correction and before/after response](images/2026-09-15-steady-state-aerodynamics.png)
-
-**Total time spent: 3 hours**
-
-# September 16: I tried to make the maths and Simulink tell the same story
-
+# September 16: I tried to make the maths and Simulink line up
 I added the UKF formulation to the paper and worked the aerodynamic model into the mathematical description, checking the correspondence against Simulink. It's surprisingly easy to get an implementation running and then struggle to explain exactly what equations are being executed.
 
 I wanted someone reading the paper to be able to follow the estimator assumptions and the forces in the simulation without having my model open. I was working on documentation and model consistency here; hardware testing was still to come.
 
-![PLACEHOLDER — paper UKF/aerodynamic equations next to corresponding Simulink blocks](images/2026-09-16-ukf-aero-maths.png)
+<img width="768" height="934" alt="image" src="https://github.com/user-attachments/assets/0d9c2618-b1f2-463c-bda6-60bc4835191c" />
 
 **Total time spent: 2.5 hours**
 
@@ -185,9 +175,9 @@ I wanted someone reading the paper to be able to follow the estimator assumption
 
 I moved into Monte Carlo simulations for NMPC, but the MATLAB code wasn't compiling/executing properly at first. The issue came down to function calls, which I needed to fix before the campaign could run reliably.
 
-I went through the calls, fixed the problems and got the campaign running. I don't have final Monte Carlo statistics recorded for that day. The campaign was ready to test NMPC across a much larger set of cases than the single recovery simulation.
+I went through the calls, fixed the problems and got the campaign running. The monte carlo took nearly 24 hours to finish even on a decently powerful PC with promising results at 93.66% of runs succeeded, which means flight validation will likely be successful.
 
-![PLACEHOLDER — MATLAB error/function-call fix and NMPC run output](images/2026-09-17-nmpc-monte-carlo-debugging.png)
+<img width="1894" height="406" alt="image" src="https://github.com/user-attachments/assets/0e8f2732-2dd4-46ec-9537-efa05d5d1903" />
 
 **Total time spent: 2 hours**
 
@@ -197,7 +187,7 @@ I corrected the Discrete Algebraic Riccati Equation derivation used in the paper
 
 This was mainly a mathematical correctness pass. I don't want the terminal penalty presented as a stability guarantee that the derivation doesn't establish. I still need to check the final expression against the implementation and retain the earlier version so the correction is visible.
 
-![PLACEHOLDER — annotated corrected DARE / terminal-cost equations](images/2026-09-28-dare-correction.png)
+<img width="790" height="1056" alt="image" src="https://github.com/user-attachments/assets/a5c4d10b-776c-4403-bb82-cfe2a7797258" />
 
 **Total time spent: 4 hours**
 
@@ -205,9 +195,10 @@ This was mainly a mathematical correctness pass. I don't want the terminal penal
 
 I finished the design for an earlier flight-controller PCB. I was glad to have it done, though I still had to consider its fit in the final rocket and check the interface wiring before deciding which board to build.
 
-I would end up reconsidering which controller board to build and then drawing a simpler design in October. I want this older revision in the journal because it shows actual work done, even though I didn't ultimately treat it as the final board. **I still need to confirm the exact date and identify the board files for this entry.**
+I would end up reconsidering which controller board to build and then drawing a simpler design in October. I want to put this older revision in the journal. even though I didn't ultimately treat it as the final board.
 
-![PLACEHOLDER — completed earlier PCB render or KiCad layout](images/2026-09-29-earlier-pcb-complete.png)
+<img width="1364" height="1020" alt="image" src="https://github.com/user-attachments/assets/0589f14f-e920-4520-a1df-418015b7c626" />
+
 
 **Total time spent: 1 hour**
 
@@ -217,7 +208,6 @@ I spent more time documenting the actual UKF mathematics. I'd already added the 
 
 Writing the equations made me look more closely at how the quaternion is handled, how uncertainty is propagated, and when different sensors should be trusted. I was continuing the estimator documentation I'd started on September 16.
 
-![PLACEHOLDER — expanded UKF derivation or edited manuscript page](images/2026-09-30-ukf-equations.png)
 
 **Total time spent: 2 hours**
 
@@ -227,7 +217,7 @@ I began the LQR literature review to understand how to set up a useful classical
 
 The literature review was still in progress. I hadn't established a finished matched LQR experiment from this activity. It was about strengthening the reasoning behind the baseline before drawing conclusions from comparisons.
 
-![PLACEHOLDER — literature notes, reference list or annotated LQR derivation](images/2026-10-01-lqr-literature.png)
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/12444ca6-6136-4a51-8b53-046e87d3ae1c" />
 
 **Total time spent: 2.3 hours**
 
@@ -237,19 +227,11 @@ I started translating the Simulink wind/turbulence model into the mathematics fo
 
 I wanted to distinguish the stochastic turbulence process from the deterministic gust and then show how air-relative velocity leads to the aerodynamic forces and moments that the controllers must reject. The translation and derivation were still in progress.
 
-![PLACEHOLDER — wind/turbulence Simulink blocks paired with draft equations](images/2026-10-02-wind-model-equations.png)
+<img width="794" height="1284" alt="image" src="https://github.com/user-attachments/assets/e36372a7-372f-4033-b844-3445d22ea3d4" />
+
 
 **Total time spent: 2 hours**
 
-# October 3: I compiled code to MEX
-
-I started compiling the simulation/controller code to MEX to get faster runs. Parameter sweeps and Monte Carlo campaigns sound manageable when they're just numbers in a plan; once I actually start running thousands of cases, every bit of overhead hurts.
-
-I wanted to make the experimental workload practical. I still need to check that the MEX output matches the original MATLAB implementation and record a proper before/after benchmark to measure any speed improvement.
-
-![PLACEHOLDER — MEX build success output or timed MATLAB-versus-MEX test](images/2026-10-03-mex-compilation.png)
-
-**Total time spent: 3 hours**
 
 # October 4: I began building the failure maps
 
@@ -257,7 +239,6 @@ I started setting up the failure-map analysis I'd been working towards with the 
 
 I was only setting up the pipeline at this point. I still needed to keep the four-controller comparison fair: same plant, disturbance seeds, actuator assumptions, metrics and failure criterion. Otherwise, differences in the simulation setup could skew the maps.
 
-![PLACEHOLDER — early failure-map script, grid definition or draft heatmap](images/2026-10-04-failure-map-setup.png)
 
 **Total time spent: 1 hour**
 
@@ -267,7 +248,9 @@ I updated the plotting/analysis code to show PID, LQR, NMPC and MLP-tuned NMPC t
 
 The goal was a condensed set of figures where a reader could compare all four under a common sweep. I'd changed the analysis and visualisation code, but I still needed to check the final charts, the controller results and whether the underlying runs were matched.
 
-![PLACEHOLDER — old separate charts beside the new four-controller chart draft](images/2026-10-08-four-controller-plots.png)
+<img width="1212" height="1436" alt="image" src="https://github.com/user-attachments/assets/b7b907ea-7a20-4dc2-9647-4ed7e035cfb3" />
+<img width="1226" height="1444" alt="image" src="https://github.com/user-attachments/assets/32d502eb-1ea8-4ffe-b4ca-990624c4b0e6" />
+
 
 **Total time spent: 4 hours**
 
@@ -279,9 +262,12 @@ So I changed direction and started a **new, simpler flight controller**. I prior
 
 I still need to recheck those blocks in the new design, especially power, TX/RX, PWM and connectors. Each block's power and signal connections need to suit this board.
 
-![PLACEHOLDER — new simplified schematic overview, with reused functional blocks highlighted](images/2026-10-09-new-simple-fc-schematic.png)
+<img width="1784" height="996" alt="image" src="https://github.com/user-attachments/assets/04d25ae4-b40e-4be8-8a6a-f8c2e73af596" />
+<img width="1548" height="1326" alt="image" src="https://github.com/user-attachments/assets/4e6bcc70-11d1-4caf-9785-c68c0f8db3ad" />
 
-**Total time spent: 2 hours**
+
+
+**Total time spent: 3 hours**
 
 # October 10: The new flight controller finally started looking like a real board
 
@@ -289,7 +275,8 @@ With the new schematic done, I moved into PCB layout. I finished the component p
 
 I had to think through where the components and connectors sat and how the signal paths would run between them. Placement was done and routing was underway, with the rest of the routing and validation still ahead.
 
-![PLACEHOLDER — KiCad component-placement screenshot before or during first routing](images/2026-10-10-fc-placement-routing-start.png)
+<img width="878" height="1240" alt="image" src="https://github.com/user-attachments/assets/c58d28f5-38a1-408a-93d4-0b719a3c3da9" />
+
 
 **Total time spent: 4 hours**
 
@@ -298,8 +285,8 @@ I had to think through where the components and connectors sat and how the signa
 I finished routing all the traces on the new flight-controller PCB. Three calendar days after finishing the schematic, I'd completed placement and routing. After spending so long weighing up the older designs, I was glad to have the new board routed.
 
 I still need to run the final ERC/DRC checks, audit power and signal nets, verify the PWM and TX/RX connections, and inspect the mechanical fit before sending it for manufacture. The earlier boards taught me how easily electrical mistakes can survive into the layout. Fabrication, hardware testing and flight testing are still ahead.
+<img width="904" height="1256" alt="image" src="https://github.com/user-attachments/assets/b6003fae-e556-48b1-921f-ae14a8029a52" />
 
-![PLACEHOLDER — fully routed KiCad PCB, ideally front/back copper views](images/2026-10-12-fc-routing-complete.png)
 
 **Total time spent: 3 hours**
 
@@ -307,6 +294,7 @@ I still need to run the final ERC/DRC checks, audit power and signal nets, verif
 
 I finished the firmware for the flight computer, largely using code blocks from a previous project. I used STM32CubeIDE to build the project. The next step will be to submit the project and order the PCB.
 
-![PLACEHOLDER — code for the AHRS](images/2026-10-12-fc-routing-complete.png)
+<img width="2560" height="1600" alt="image" src="https://github.com/user-attachments/assets/c9688151-5293-4c70-9d76-f5e6772567e2" />
 
-**Total time spent: 3 hours**
+
+**Total time spent: 4 hours**
