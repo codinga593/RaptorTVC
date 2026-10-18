@@ -238,7 +238,7 @@ The literature review was still in progress. I hadn't established a finished mat
 
 **Total time spent: 2.3 hours**
 
-# October 2 =: Turning the wind blocks back into equations
+# October 2 : Turning the wind blocks back into equations
 
 I started translating the Simulink wind/turbulence model into the mathematics for the paper. The simulation already had a physical wind path, but that isn't helpful to a reader if the report just says "Dryden turbulence" and leaves out what the model is actually doing.
 
@@ -248,7 +248,7 @@ I wanted to distinguish the stochastic turbulence process from the deterministic
 
 **Total time spent: 2 hours**
 
-# October 3: I compiled code to MEX because the simulation count was getting ridiculous
+# October 3: I compiled code to MEX
 
 I started compiling the simulation/controller code to MEX to get faster runs. Parameter sweeps and Monte Carlo campaigns sound manageable when they're just numbers in a plan; once I actually start running thousands of cases, every bit of overhead hurts.
 
@@ -258,7 +258,7 @@ Getting the code onto a faster execution path was about making the experimental 
 
 **Total time spent: 3 hours**
 
-# October 4: I began building the failure maps I'd wanted from the start
+# October 4: I began building the failure maps 
 
 I started setting up the failure-map analysis, which was really the reason for a lot of the earlier controller work. Instead of producing endless isolated plots, I wanted a way to show how gust, delay, sensor noise and actuator limits interact and where the probability of successful control starts to collapse.
 
@@ -268,7 +268,7 @@ I was only setting up the pipeline at this point. The hard part would be keeping
 
 **Total time spent: 1 hours**
 
-# October 8: Four separate sweep charts were getting impossible to compare
+# October 8: Four separate sweep charts were getting impossible to compare, so I made condensed ones
 
 I updated the plotting/analysis code so each sweep could compare PID, LQR, NMPC and MLP-tuned NMPC together rather than presenting one controller's sweep at a time. Individual charts were taking up space and making it harder to see the differences that the paper was meant to investigate.
 
@@ -300,7 +300,7 @@ I had to treat placement and routing as functional engineering, not just making 
 
 **Total time spent: 4 hours**
 
-# October 12: I finished routing — now I have to prove it actually works
+# October 12: I finished routing
 
 I finished routing all the traces on the new flight-controller PCB. Three calendar days after finishing the schematic, I had gone through placement and routing. Considering how long I'd spent weighing up flawed older designs, this was a big shift toward actually getting a board built.
 
